@@ -1,3 +1,4 @@
+from unittest import runner
 from node import Node
 
 
@@ -62,17 +63,51 @@ class LinkedList:
             counter += 1
             current = current.next
         return counter
+    
+    def find_node(self, target_value):
+        """Find a node with a target value in a linked list"""
+        current = self.head
+        while current is not None:
+            if current.value == target_value:
+                return True
+            current = current.next
+        return False
+    
+    def delete_node(self, target_value):
+        """Delete a node from 3 possible places:
+        (1) Delete the head node: move the head pointer to the next node.
+
+        (2) Delete from the middle: start from head, move the pointer from previous 
+        to the node after the target node to delete. Previous then point to the node
+        that comes after the current node.
+
+        (3) Delete the tail node: current.next will be None, already a feature in code
+        """
+        if self.head is None:
+            return False
+        elif self.head.value == target_value:
+            self.head = self.head.next
+            return True
+        else:
+            previous = self.head
+            current = self.head.next
+            while (current is not None) and (target_value > current.value):
+                previous = current
+                current = current.next
+            if (current is not None) and (current.value == target_value):
+                previous.next = current.next
+                return True
+            else:
+                return False
+        
+
+# my_linked_list = LinkedList()
+# my_linked_list.insert_node("Python")
+# my_linked_list.insert_node("World")
+# my_linked_list.insert_node("Hello")
+# my_linked_list.insert_node("Code")
 
 
-
-
-my_linked_list = LinkedList()
-my_linked_list.insert_node("Python")
-my_linked_list.insert_node("World")
-my_linked_list.insert_node("Hello")
-my_linked_list.insert_node("Code")
-
-
-print(my_linked_list.print_list_items())
-print(my_linked_list.count_nodes())
+# print(my_linked_list.print_list_items())
+# print(my_linked_list.count_nodes())
 
